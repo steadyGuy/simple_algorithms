@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторнка робота №1</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- стили mocha для отображения результатов -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <!-- сам фреймворк mocha -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+        // режим тестирования в стиле BDD
+        mocha.setup('bdd');
+    </script>
+    <!-- chai -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script>
+        // chai предоставляет большое количество функций. Объявим assert глобально
+        const assert = chai.assert;
+        const expect = chai.expect
+    </script>
+
+</head>
+
+<body>
+    <div class="textEditor">
+        <div class="textEditor__left">
+            <b class="title">Введіть строки: </b>
+            <textarea placeholder="Введите текст..." autofocus required class="textEditor__area" name="" id="area"
+                cols="30" rows="10"></textarea>
+        </div>
+        <div class="textEditor__right">
+            <b class="title">Результат: </b>
+            <p class="textEditor__result" id="result">...</p>
+        </div>
+    </div>
+    <div class="errorHandler" id="error"></div>
+    <button id="mochaRunner">Run tests</button>
+    <div id="mocha"></div>
+    <script src="algorithm.test.js"></script>
+    <script src="main.js"></script>
+    <script src="dom.js"></script>
+</body>
+
+</html>
