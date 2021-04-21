@@ -1,4 +1,4 @@
-const LinkedListNode = require('./LinkedListNode.js');
+const DoublyLinkedListNode = require('./DoublyLinkedListNode');
 
 module.exports = class LinkedList {
   constructor() {
@@ -7,7 +7,7 @@ module.exports = class LinkedList {
   }
 
   prepend(value) {
-    const newNode = new LinkedListNode(value, this.head);
+    const newNode = new DoublyLinkedListNode(value, this.head);
 
     // Переназначаем head на новый узел
     this.head = newNode;
@@ -22,21 +22,19 @@ module.exports = class LinkedList {
   }
 
   append(value) {
-    // Создаём новый узел.
-    const newNode = new LinkedListNode(value);
+    const newNode = new DoublyLinkedListNode(value, null, this.tail);
 
-    // Если нет head или tail, делаем новым узлом head и tail.
-    if (!this.head || !this.tail) {
+    if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
 
       return this;
     }
-    // Присоединяем новый узел к концу связного списка.
-    // Берём последний узел и указываем, что его next будет новым узлом.
-    this.tail.next = newNode; // тут магия
 
-    // Переназначаем tail на новый узел.
+    // Attach new node to the end of linked list.
+    this.tail.next = newNode;
+
+    // Set new node to be the tail of linked list.
     this.tail = newNode;
 
     return this;
@@ -70,31 +68,46 @@ module.exports = class LinkedList {
   }
 
   find(value) {
-    // Если нет head значит список пуст.
-    if (!this.head) {
-      return null;
-    }
+    if (!this.head) return null;
 
     let currentNode = this.head;
 
-    // Перебираем все узлы в поиске значения.
     while (currentNode) {
-      // Если указано значение, пробуем сравнить его по значению.
       if (value !== undefined && currentNode.value === value) {
-        //МОДИФИФИРУЕМ
-        if (currentNode.next && currentNode.next.next) {
-          //берем 1
-          let tmp = currentNode.next.next.next; // ссилка на null
-          [currentNode.next, currentNode.next.next] = [currentNode.next.next, currentNode.next]; // 2 = 3, 3 = 2
-          currentNode.next.next.next = tmp;
-        }
         return currentNode;
       }
 
-      // Перематываем на один узел вперед.
       currentNode = currentNode.next;
     }
 
     return null;
+  }
+
+  deleteTail() {
+    const deletedTail = this.tail;
+
+    if (this.head === this.tail) {
+      // только одна нода в списке
+      this.head = null;
+      this.tail = null;
+
+      return deletedTail;
+    }
+
+    // Больше одной ноды в списке
+
+    // Вернуться к последнему узлу и удалить «следующую» ссылку для узла перед последним.
+    let currentNode = this.head;
+    while (currentNode.next) {
+      if (!currentNode.next.next) {
+        currentNode.next = null;
+      } else {
+        currentNode = currentNode.next;
+      }
+    }
+
+    this.tail = currentNode;
+
+    return deletedTail;
   }
 };
