@@ -110,6 +110,6 @@ class DoublyLinkedList {
 
     return deletedTail;
   }
-};
+}
 
 export default DoublyLinkedList;

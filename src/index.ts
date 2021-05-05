@@ -7,19 +7,27 @@ list.append(2);
 list.append(3);
 list.append(4);
 list.append(5);
-list.append(6);
+list.append(3);
+list.append(2);
+list.append(5);
+list.append(7);
+list.append(9);
+list.append(10);
+list.append(11);
 
-list.find(1);
-console.log('первый элемент', list.toString());
+console.log(list.myTask2GetData())
 
-list.find(5);
-console.log('пред-последний элемент', list.toString());
+// list.find(1);
+// console.log('первый элемент', list.toString());
 
-list.find(5);
-console.log('последний элемент', list.toString());
+// list.find(5);
+// console.log('пред-последний элемент', list.toString());
 
-list.find(2);
-console.log('середина', list.toString());
+// list.find(5);
+// console.log('последний элемент', list.toString());
+
+// list.find(2);
+// console.log('середина', list.toString());
 
 // const list = new DoublyLinkedList();
 // list.append(1);

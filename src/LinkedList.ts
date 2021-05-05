@@ -100,6 +100,57 @@ class LinkedList implements INodeList {
 
     return null;
   }
+
+  myTask2GetData() {
+
+    if (!this.head) return [];
+
+    let currentNode = this.head;
+    let [len, maxLen] = [1, 1];
+    while (currentNode) {
+
+      if (currentNode.next && currentNode.value > currentNode.next.value) {
+        len++;
+      } else {
+        if (len > maxLen) maxLen = len;
+        len = 1;
+      }
+
+      currentNode = currentNode.next;
+    }
+
+    currentNode = this.head;
+    len = 1;
+    let [startNode, endNode] = [this.head, this.head];
+    const results = [];
+
+    while (currentNode) {
+
+      if (currentNode.next && currentNode.value > currentNode.next.value) {
+        len++;
+        endNode = currentNode.next;
+      } else {
+        if (len === maxLen) {
+          results.push([startNode, currentNode]);
+          startNode = currentNode.next;
+          len = 1;
+        }
+        startNode = currentNode.next;
+      }
+      currentNode = currentNode.next;
+    }
+
+    return results.reduce((prev, current) => {
+      const newArr = [];
+      while (current[0].value !== current[1].value) {
+        newArr.push(current[0].value)
+        current[0] = current[0].next;
+      }
+      newArr.push(current[1].value);
+      return [...prev, newArr]
+    }, []);
+
+  }
 }
 
 export default LinkedList;
