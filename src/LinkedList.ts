@@ -1,12 +1,15 @@
-const LinkedListNode = require('./LinkedListNode.js');
+import LinkedListNode, { Fn, ListValue } from './LinkedListNode';
 
-module.exports = class LinkedList {
-  constructor() {
-    this.head = null;
-    this.tail = null;
-  }
+export interface INodeList {
+  head: LinkedListNode | null;
+  tail: LinkedListNode | null;
+}
 
-  prepend(value) {
+class LinkedList implements INodeList {
+  public head: LinkedListNode | null = null;
+  public tail: LinkedListNode | null = null;
+
+  prepend(value: ListValue): this {
     const newNode = new LinkedListNode(value, this.head);
 
     // Переназначаем head на новый узел
@@ -21,7 +24,7 @@ module.exports = class LinkedList {
     return this;
   }
 
-  append(value) {
+  append(value: ListValue): this {
     // Создаём новый узел.
     const newNode = new LinkedListNode(value);
 
@@ -34,7 +37,7 @@ module.exports = class LinkedList {
     }
     // Присоединяем новый узел к концу связного списка.
     // Берём последний узел и указываем, что его next будет новым узлом.
-    this.tail.next = newNode; // тут магия
+    this.tail.next = newNode;
 
     // Переназначаем tail на новый узел.
     this.tail = newNode;
@@ -42,7 +45,7 @@ module.exports = class LinkedList {
     return this;
   }
 
-  toArray() {
+  toArray(): LinkedListNode[] {
     const nodes = [];
 
     let currentNode = this.head;
@@ -57,7 +60,7 @@ module.exports = class LinkedList {
     return nodes;
   }
 
-  toString(callback) {
+  toString(callback?: Fn): string {
     // Сначала создаём массив из всех узлов.
     return (
       this.toArray()
@@ -69,7 +72,7 @@ module.exports = class LinkedList {
     );
   }
 
-  find(value) {
+  find(value?: ListValue): LinkedListNode | null {
     // Если нет head значит список пуст.
     if (!this.head) {
       return null;
@@ -97,4 +100,6 @@ module.exports = class LinkedList {
 
     return null;
   }
-};
+}
+
+export default LinkedList;

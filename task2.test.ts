@@ -1,4 +1,4 @@
-const LinkedList = require('./LinkedList');
+import LinkedList from './src/LinkedList';
 
 test('если последовательность одна', () => {
   const list = new LinkedList();

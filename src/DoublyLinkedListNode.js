@@ -1,4 +1,4 @@
-module.exports = class DoublyLinkedListNode {
+class DoublyLinkedListNode {
   constructor(value, next = null, pevious = null) {
     this.value = value;
     this.next = next;
@@ -8,4 +8,6 @@ module.exports = class DoublyLinkedListNode {
   toString(callback) {
     return callback ? callback(this.value) : `${this.value}`;
   }
-};
+}
+
+export default DoublyLinkedListNode;
