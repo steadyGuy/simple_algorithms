@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "allowJs": true,
+    "module": "commonjs",
+    "outDir": "dist",
+    // "strict": true,
+    "target": "es2015",
+    "sourceMap": true
+  },
+  "include": ["src", "task2.test.ts"],
+  "exclude": ["node_modules"]
+}
