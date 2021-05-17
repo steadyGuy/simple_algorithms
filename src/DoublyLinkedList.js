@@ -22,20 +22,16 @@ class DoublyLinkedList {
   }
 
   append(value) {
-    const newNode = new DoublyLinkedListNode(value, null, this.tail);
+    const newNode = new DoublyLinkedListNode(value, null, null);
 
     if (!this.head) {
       this.head = newNode;
-      this.tail = newNode;
+      // this.tail = newNode;
 
       return this;
     }
 
-    // Attach new node to the end of linked list.
-    this.tail.next = newNode;
-
-    // Set new node to be the tail of linked list.
-    this.tail = newNode;
+    this.head.next = newNode;
 
     return this;
   }
