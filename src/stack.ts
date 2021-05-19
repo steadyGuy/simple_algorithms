@@ -1,23 +1,13 @@
-import LinkedList from "./LinkedList";
-import { Fn, ListValue } from "./LinkedList/LinkedListNode";
-
-interface IStack {
-  arr: number[];
-  isEmpty(): boolean;
-  push(value: number): void;
-  pop(): number;
-  peek(): number;
-  toString(): string;
-}
+import { IStack } from './stackList';
 
 class Stack implements IStack {
-  public arr: number[];
+  public stack: number[];
   constructor() {
-    this.arr = [];
+    this.stack = [];
   }
 
   isEmpty() {
-    return !this.arr.length;
+    return !this.stack.length;
   }
 
   // Возвращает объект, находящийся в начале Stack, без его удаления.
@@ -26,25 +16,25 @@ class Stack implements IStack {
       return null;
     }
 
-    return this.arr[0];
+    return this.stack[0];
   }
 
   push(value: number) {
     // Вставляет объект как верхний элемент стека Stack.
-    this.arr.push(value);
+    this.stack.push(value);
   }
 
   pop() {
     // Удаляет и возвращает объект, находящийся в начале Stack.
-    return this.arr.shift();
+    return this.stack.shift();
   }
 
   popMin() {
-    return Math.min(...this.arr.filter(el => el >= 0));
+    return Math.min(...this.stack.filter(el => el >= 0));
   }
 
   toString() {
-    return this.arr.toString();
+    return this.stack.toString();
   }
 }
 

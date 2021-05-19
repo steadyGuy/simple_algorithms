@@ -1,24 +1,23 @@
 import LinkedList from "./LinkedList";
-import { Fn, ListValue } from "./LinkedList/LinkedListNode";
 
-interface IStack {
-  linkedList: LinkedList;
+export interface IStack {
+  stack: LinkedList | Array<number>;
   isEmpty(): boolean;
   push(value: number): void;
-  pop(): ListValue;
-  peek(): ListValue;
-  toArray(): number[];
-  toString(callback?: Fn): string;
+  pop(): number;
+  peek(): number;
+  toArray?(): number[];
+  toString(): string;
 }
 
 class Stack implements IStack {
-  public linkedList: LinkedList;
+  public stack: LinkedList;
   constructor() {
-    this.linkedList = new LinkedList();
+    this.stack = new LinkedList();
   }
 
   isEmpty() {
-    return !this.linkedList.head;
+    return !this.stack.head;
   }
 
   // Возвращает объект, находящийся в начале Stack, без его удаления.
@@ -27,43 +26,43 @@ class Stack implements IStack {
       return null;
     }
 
-    return this.linkedList.head.value;
+    return this.stack.head.value;
   }
 
   push(value: number) {
     // Вставляет объект как верхний элемент стека Stack.
-    this.linkedList.prepend(value);
+    this.stack.prepend(value);
   }
 
   pop() {
     // Удаляет и возвращает объект, находящийся в начале Stack.
-    const removedHead = this.linkedList.deleteHead();
+    const removedHead = this.stack.deleteHead();
     return removedHead ? removedHead.value : null;
   }
 
   popMin() {
-    let current = this.linkedList.head;
+    let current = this.stack.head;
     const minPositive = [];
 
     if (!current) return NaN;
-    if (current === this.linkedList.tail) return this.linkedList.delete(current.value).value < 0 ? NaN : current.value;
+    if (current === this.stack.tail) return this.stack.delete(current.value).value < 0 ? NaN : current.value;
 
     while (current.next) {
       if (current.value >= 0) minPositive.push(current.value)
       current = current.next;
     }
-    let res = this.linkedList.delete(Math.min(...minPositive));
+    let res = this.stack.delete(Math.min(...minPositive));
     return res === null ? NaN : res.value;
   }
 
   toArray(): number[] {
-    return this.linkedList
+    return this.stack
       .toArray()
-      .map((linkedListNode) => linkedListNode.value) as number[];
+      .map((node) => node.value) as number[];
   }
 
-  toString(callback) {
-    return this.linkedList.toString(callback);
+  toString() {
+    return this.stack.toString();
   }
 }
 

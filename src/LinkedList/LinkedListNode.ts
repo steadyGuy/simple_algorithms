@@ -1,19 +1,19 @@
-export type ListValue = number | string | { [key: string]: any };
+export type Value = number;
 
 export interface INode {
-  value: ListValue;
+  value: Value;
   next: LinkedListNode | null;
-  toString(fn?: Fn): string;
+  toString(): number;
 }
 
 export type Fn = (value: { [key: string]: any }) => string;
 
 class LinkedListNode implements INode {
 
-  constructor(public value: ListValue, public next: LinkedListNode | null = null) { };
+  constructor(public value: Value, public next: LinkedListNode | null = null) { };
 
-  toString(callback: Fn): string {
-    return callback ? callback(this.value as { [ket: string]: any }) : `${this.value}`;
+  toString() {
+    return this.value;
   }
 }
 

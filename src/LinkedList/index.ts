@@ -1,4 +1,4 @@
-import LinkedListNode, { Fn, ListValue } from './LinkedListNode';
+import LinkedListNode, { Fn, Value } from './LinkedListNode';
 
 export interface INodeList {
   head: LinkedListNode | null;
@@ -9,7 +9,7 @@ class LinkedList implements INodeList {
   public head: LinkedListNode | null = null;
   public tail: LinkedListNode | null = null;
 
-  prepend(value: ListValue): this {
+  prepend(value: Value): this {
     const newNode = new LinkedListNode(value, this.head);
 
     // Переназначаем head на новый узел
@@ -24,7 +24,7 @@ class LinkedList implements INodeList {
     return this;
   }
 
-  append(value: ListValue): this {
+  append(value: Value): this {
     // Создаём новый узел.
     const newNode = new LinkedListNode(value);
 
@@ -60,19 +60,19 @@ class LinkedList implements INodeList {
     return nodes;
   }
 
-  toString(callback?: Fn): string {
+  toString(): string {
     // Сначала создаём массив из всех узлов.
     return (
       this.toArray()
         // На каждом узле вызываем метод toString
         // что бы получить значение в виде строки.
-        .map((node) => node.toString(callback))
+        .map((node) => node.toString())
         // Вызываем метод toString на массиве строк.
         .toString()
     );
   }
 
-  find(value?: ListValue): LinkedListNode | null {
+  find(value?: Value): LinkedListNode | null {
     // Если нет head значит список пуст.
     if (!this.head) {
       return null;
@@ -116,7 +116,7 @@ class LinkedList implements INodeList {
     return deletedHead;
   }
 
-  delete(value: ListValue) {
+  delete(value: Value) {
     if (!this.head) return null;
 
     let deletedNode: LinkedListNode = null;
