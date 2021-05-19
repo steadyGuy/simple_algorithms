@@ -1,36 +1,14 @@
 import LinkedListNode, { Fn, ListValue } from './LinkedListNode';
 
-export interface INodeList {
-  head: LinkedListNode | null;
-  // tail: LinkedListNode | null;
-}
-
-class LinkedList implements INodeList {
+class LinkedList {
   public head: LinkedListNode | null = null;
-  public tail: LinkedListNode | null = null;
 
   prepend(value: ListValue): this {
     const newNode = new LinkedListNode(value, this.head);
     this.head = newNode;
-    // if (!this.tail) this.tail = newNode;
+
     return this;
   }
-
-  // append(value: ListValue): this {
-  //   const newNode = new LinkedListNode(value);
-
-  //   if (!this.head) {
-  //     this.head = newNode;
-  //     // this.tail = newNode;
-
-  //     return this;
-  //   }
-
-  //   // this.tail.next = newNode;
-  //   // this.tail = newNode;
-
-  //   return this;
-  // }
 
   append(value: ListValue): this {
     const newNode = new LinkedListNode(value);
@@ -69,26 +47,22 @@ class LinkedList implements INodeList {
     );
   }
 
-  find(value?: ListValue): LinkedListNode | null {
+  find(value: ListValue): LinkedListNode | null {
     if (!this.head) return null;
 
-    let currentNode = this.head;
+    let currentNode: LinkedListNode | null = this.head;
 
-    // Перебираем все узлы в поиске значения.
     while (currentNode) {
-      // Если указано значение, пробуем сравнить его по значению.
-      if (value !== undefined && currentNode.value === value) {
-        //МОДИФИФИРУЕМ
+      if (currentNode.value === value) {
+
         if (currentNode.next && currentNode.next.next) {
-          //берем 1
-          let tmp = currentNode.next.next.next; // ссилка на null
-          [currentNode.next, currentNode.next.next] = [currentNode.next.next, currentNode.next]; // 2 = 3, 3 = 2
+          let tmp = currentNode.next.next.next;
+          [currentNode.next, currentNode.next.next] = [currentNode.next.next, currentNode.next];
           currentNode.next.next.next = tmp;
         }
         return currentNode;
       }
 
-      // Перематываем на один узел вперед.
       currentNode = currentNode.next;
     }
 
@@ -99,7 +73,7 @@ class LinkedList implements INodeList {
 
     if (!this.head) return [];
 
-    let currentNode = this.head;
+    let currentNode: LinkedListNode | null = this.head;
     let [len, maxLen] = [1, 1];
     while (currentNode) {
 
@@ -115,7 +89,7 @@ class LinkedList implements INodeList {
 
     currentNode = this.head;
     len = 1;
-    let currentStart = this.head;
+    let currentStart: LinkedListNode | null = this.head;
     const results = [];
 
     while (currentNode) {
@@ -133,7 +107,7 @@ class LinkedList implements INodeList {
       currentNode = currentNode.next;
     }
 
-    return results.reduce((prev, current) => {
+    return (results).reduce((prev, current) => {
       const newArr = [];
       while (current[0].value !== current[1].value) {
         newArr.push(current[0].value)
@@ -142,6 +116,31 @@ class LinkedList implements INodeList {
       newArr.push(current[1].value);
       return [...prev, newArr]
     }, []);
+
+  }
+
+  delete(value: ListValue) {
+    if (!this.head) return null;
+
+    let deletedNode: LinkedListNode | null = null;
+
+    while (this.head && this.head.value === value) {
+      deletedNode = this.head;
+      this.head = this.head.next;
+    }
+
+    let currentNode = this.head;
+
+    if (currentNode !== null) {
+      while (currentNode.next) {
+        if (currentNode.next.value === value) {
+          deletedNode = currentNode.next;
+          currentNode.next = currentNode.next.next;
+        } else {
+          currentNode = currentNode.next;
+        }
+      }
+    }
 
   }
 }

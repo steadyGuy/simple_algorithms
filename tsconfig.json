@@ -8,6 +8,6 @@
     "target": "es2015",
     "sourceMap": true
   },
-  "include": ["src", "task2.test.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": ["node_modules", "*.js"]
 }

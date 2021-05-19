@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch \"src\" --ext \"js,ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node src/index.ts\"",
     "build": "node dist/src/index.js",
-    "test": "node_modules/.bin/jest dist/task2.test.js"
+    "test": "node_modules/.bin/jest task2.test.js"
   },
   "keywords": [],
   "author": "",

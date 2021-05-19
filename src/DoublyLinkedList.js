@@ -3,36 +3,31 @@ import DoublyLinkedListNode from './DoublyLinkedListNode';
 class DoublyLinkedList {
   constructor() {
     this.head = null;
-    this.tail = null;
   }
 
   prepend(value) {
     const newNode = new DoublyLinkedListNode(value, this.head);
 
-    // Переназначаем head на новый узел
     this.head = newNode;
 
-    // Если ещё нет tail, делаем новый узел tail.
-    if (!this.tail) {
-      this.tail = newNode;
-    }
-
-    // Возвращаем весь список.
     return this;
   }
 
   append(value) {
-    const newNode = new DoublyLinkedListNode(value, null, null);
+    const newNode = new DoublyLinkedListNode(value);
 
     if (!this.head) {
       this.head = newNode;
-      // this.tail = newNode;
-
       return this;
     }
 
-    this.head.next = newNode;
+    let [current, prev] = [this.head, null];
+    while (current.next) {
+      current = current.next;
+    }
 
+    current.next = newNode;
+    newNode.previous = current;
     return this;
   }
 
@@ -41,26 +36,18 @@ class DoublyLinkedList {
 
     let currentNode = this.head;
 
-    // Перебираем все узлы и добавляем в массив.
     while (currentNode) {
       nodes.push(currentNode);
       currentNode = currentNode.next;
     }
 
-    // Возвращаем массив из всех узлов.
     return nodes;
   }
 
   toString(callback) {
-    // Сначала создаём массив из всех узлов.
-    return (
-      this.toArray()
-        // На каждом узле вызываем метод toString
-        // что бы получить значение в виде строки.
-        .map((node) => node.toString(callback))
-        // Вызываем метод toString на массиве строк.
-        .toString()
-    );
+    return this.toArray()
+      .map((node) => node.toString(callback))
+      .toString();
   }
 
   find(value) {
@@ -77,34 +64,6 @@ class DoublyLinkedList {
     }
 
     return null;
-  }
-
-  deleteTail() {
-    const deletedTail = this.tail;
-
-    if (this.head === this.tail) {
-      // только одна нода в списке
-      this.head = null;
-      this.tail = null;
-
-      return deletedTail;
-    }
-
-    // Больше одной ноды в списке
-
-    // Вернуться к последнему узлу и удалить «следующую» ссылку для узла перед последним.
-    let currentNode = this.head;
-    while (currentNode.next) {
-      if (!currentNode.next.next) {
-        currentNode.next = null;
-      } else {
-        currentNode = currentNode.next;
-      }
-    }
-
-    this.tail = currentNode;
-
-    return deletedTail;
   }
 }
 

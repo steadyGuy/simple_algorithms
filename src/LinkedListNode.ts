@@ -12,7 +12,7 @@ class LinkedListNode implements INode {
 
   constructor(public value: ListValue, public next: LinkedListNode | null = null) { };
 
-  toString(callback: Fn): string {
+  toString(callback?: Fn): string {
     return callback ? callback(this.value as { [ket: string]: any }) : `${this.value}`;
   }
 }
