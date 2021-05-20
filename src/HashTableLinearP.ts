@@ -1,3 +1,4 @@
+import { hashGenerator } from './hashGenerator';
 import HashTable from './HashTable';
 // HashTable with Linear Probing technique of collision-resolution.
 
@@ -7,21 +8,20 @@ class HashTableLinearP<T> {
   constructor(size: number = 137) {
     this.#table = new Array(size);
     // this._count = 0;
-    this._rand = Math.random();
   }
 
-  put(key, data) {
-    let pos = this.hash(key);
+  put(data) {
+    let pos = hashGenerator(data.key, this.#table.length);
     // if (this._count >= 137) throw new Error('Больше за длину!');
     if (this.table[pos] === undefined) {
-      this.table[pos] = key;
+      this.#table[pos] = key;
       this.values[pos] = data;
       this._count++;
     } else {
       while (this.table[pos] !== undefined) {
         pos++;
       }
-      this.table[pos] = key;
+      this.#table[pos] = key;
       this.values[pos] = data;
       this._count++;
     }

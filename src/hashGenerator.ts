@@ -1,5 +1,5 @@
 type hashGeneratorType = {
-  <T>(item: T): number;
+  <T>(item: T, size: number): number;
 }
 
 const hashCode = (str: string) => {
@@ -13,10 +13,16 @@ const hashCode = (str: string) => {
   return hash;
 };
 
-export const hashGenerator: hashGeneratorType = (item) => {
-  if (typeof item === 'string' || (typeof item === 'object' && item !== null)) {
-    return Math.floor(((hashCode(item.toString()) * this._rand) % 1) * 137);
-  } else {
-    return Math.floor(((Number(item) * this._rand) % 1) * 137);
+const RANDOM_CONSTANT = Math.random();
+
+export const hashGenerator: hashGeneratorType = (data: unknown, size: number) => {
+  if (typeof data === 'string' || (typeof data === 'object' && data !== null)) {
+    return Math.floor(((hashCode(data.toString()) * RANDOM_CONSTANT) % 1) * size);
   }
+
+  return Math.floor(((Number(data) * RANDOM_CONSTANT) % 1) * size);
 }
+
+// 2. Організувати хеш - таблицю з відкритою адресацією, використовуючи метод пошуку і вставки по ключу.
+// Для формування хеш - адреси використовувати хеш - функцію отриману методом множення і процедуру лінійного впорядкування 
+// для вирішення колізії.
