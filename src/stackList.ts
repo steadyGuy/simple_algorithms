@@ -44,13 +44,13 @@ class Stack implements IStack {
     let current = this.stack.head;
     const minPositive = [];
 
-    if (!current) return NaN;
-    if (current === this.stack.tail) return this.stack.delete(current.value).value < 0 ? NaN : current.value;
+    if (!current) return Infinity;
 
     while (current.next) {
       if (current.value >= 0) minPositive.push(current.value)
       current = current.next;
     }
+
     let res = this.stack.delete(Math.min(...minPositive));
     return res === null ? NaN : res.value;
   }
@@ -58,7 +58,7 @@ class Stack implements IStack {
   toArray(): number[] {
     return this.stack
       .toArray()
-      .map((node) => node.value) as number[];
+      .map((node) => node.value);
   }
 
   toString() {

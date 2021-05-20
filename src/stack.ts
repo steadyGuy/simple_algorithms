@@ -36,6 +36,10 @@ class Stack implements IStack {
   toString() {
     return this.stack.toString();
   }
+
+  toArray() {
+    return this.stack;
+  }
 }
 
 export default Stack;

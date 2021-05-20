@@ -2,7 +2,7 @@ import LinkedListNode, { Fn, Value } from './LinkedListNode';
 
 export interface INodeList {
   head: LinkedListNode | null;
-  tail: LinkedListNode | null;
+  // tail: LinkedListNode | null;
 }
 
 class LinkedList implements INodeList {
@@ -15,10 +15,10 @@ class LinkedList implements INodeList {
     // Переназначаем head на новый узел
     this.head = newNode;
 
-    // Если ещё нет tail, делаем новый узел tail.
-    if (!this.tail) {
-      this.tail = newNode;
-    }
+    // // Если ещё нет tail, делаем новый узел tail.
+    // if (!this.tail) {
+    //   this.tail = newNode;
+    // }
 
     // Возвращаем весь список.
     return this;
@@ -72,35 +72,6 @@ class LinkedList implements INodeList {
     );
   }
 
-  find(value?: Value): LinkedListNode | null {
-    // Если нет head значит список пуст.
-    if (!this.head) {
-      return null;
-    }
-
-    let currentNode = this.head;
-
-    // Перебираем все узлы в поиске значения.
-    while (currentNode) {
-      // Если указано значение, пробуем сравнить его по значению.
-      if (value !== undefined && currentNode.value === value) {
-        //МОДИФИФИРУЕМ
-        if (currentNode.next && currentNode.next.next) {
-          //берем 1
-          let tmp = currentNode.next.next.next; // ссилка на null
-          [currentNode.next, currentNode.next.next] = [currentNode.next.next, currentNode.next]; // 2 = 3, 3 = 2
-          currentNode.next.next.next = tmp;
-        }
-        return currentNode;
-      }
-
-      // Перематываем на один узел вперед.
-      currentNode = currentNode.next;
-    }
-
-    return null;
-  }
-
   deleteHead(): LinkedListNode {
     if (!this.head) return null;
 
@@ -110,7 +81,7 @@ class LinkedList implements INodeList {
       this.head = this.head.next;
     } else {
       this.head = null;
-      this.tail = null;
+      // this.tail = null;
     }
 
     return deletedHead;
@@ -140,9 +111,9 @@ class LinkedList implements INodeList {
     }
 
     // Если нужно удалить хвост.
-    if (this.tail.value === value) {
-      this.tail = currentNode;
-    }
+    // if (this.tail.value === value) {
+    //   this.tail = currentNode;
+    // }
 
     return deletedNode;
   }
