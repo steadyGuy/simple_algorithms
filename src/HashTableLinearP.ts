@@ -1,23 +1,11 @@
 import HashTable from './HashTable';
 // HashTable with Linear Probing technique of collision-resolution.
 
-String.prototype.hashCode = function () {
-  var hash = 0,
-    i,
-    chr;
-  if (this.length === 0) return hash;
-  for (i = 0; i < this.length; i++) {
-    chr = this.charCodeAt(i);
-    hash = (hash << 5) - hash + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
+class HashTableLinearP<T> {
+  #table: Array<T>;
 
-class HashTableLinearP {
-  constructor() {
-    this.table = new Array(137);
-    this.values = [];
+  constructor(size: number = 137) {
+    this.#table = new Array(size);
     // this._count = 0;
     this._rand = Math.random();
   }
@@ -49,16 +37,6 @@ class HashTableLinearP {
       }
     }
     return undefined;
-  }
-
-  hash(item) {
-    let hash;
-    if (typeof item === 'string') {
-      hash = Math.floor(((item.hashCode() * this._rand) % 1) * 137);
-    } else {
-      hash = Math.floor(((item * this._rand) % 1) * 137);
-    }
-    return hash;
   }
 
   showDistro() {
