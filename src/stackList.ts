@@ -1,69 +1,49 @@
-import LinkedList from "./LinkedList";
+import { IStack } from './interface';
+import { LinkedList, ListNode } from './LinkedList';
 
-export interface IStack {
-  stack: LinkedList | Array<number>;
-  isEmpty(): boolean;
-  push(value: number): void;
-  pop(): number;
-  peek(): number;
-  toArray?(): number[];
-  toString(): string;
-}
+class StackList<T> implements IStack<T> {
+  private storage: LinkedList<T> = new LinkedList<T>();
+  private topEntity: ListNode<T> | null = this.storage.head;
 
-class Stack implements IStack {
-  public stack: LinkedList;
-  constructor() {
-    this.stack = new LinkedList();
-  }
+  constructor(private capacity: number = Infinity) { }
 
-  isEmpty() {
-    return !this.stack.head;
-  }
-
-  // Возвращает объект, находящийся в начале Stack, без его удаления.
-  peek() {
-    if (this.isEmpty()) {
-      return null;
+  push(item: T): void {
+    if (this.storage.size >= this.capacity) {
+      throw Error("Стек достиг максимальной емкости, вы не можете добавить больше сущностей");
     }
 
-    return this.stack.head.value;
+    this.topEntity = this.storage.prepend(item);
   }
 
-  push(value: number) {
-    // Вставляет объект как верхний элемент стека Stack.
-    this.stack.prepend(value);
-  }
-
-  pop() {
-    // Удаляет и возвращает объект, находящийся в начале Stack.
-    const removedHead = this.stack.deleteHead();
-    return removedHead ? removedHead.value : null;
-  }
-
-  popMin() {
-    let current = this.stack.head;
-    const minPositive = [];
-
-    if (!current) return Infinity;
-
-    while (current.next) {
-      if (current.value >= 0) minPositive.push(current.value)
-      current = current.next;
+  pop(): T {
+    if (this.topEntity === null) {
+      throw Error("Стек пуст, вы не можете удалить сущность");
     }
 
-    let res = this.stack.delete(Math.min(...minPositive));
-    return res === null ? NaN : res.value;
+    let deleted = this.storage.deleteHead();
+    this.topEntity = deleted.next;
+    return deleted?.value as T;
   }
 
-  toArray(): number[] {
-    return this.stack
-      .toArray()
-      .map((node) => node.value);
+  peek(): T {
+    if (this.topEntity === null) {
+      throw new Error("Стек пуст, вы не можете получить сущность");
+    }
+
+    return this.topEntity.value;
   }
 
-  toString() {
-    return this.stack.toString();
+  size(): number {
+    return this.storage.size;
   }
+
+  toString(): string {
+    return `{
+      size: ${this.size()},
+      stack: [${this.storage.toArray().slice(0, this.size()).map(item => item.value).reverse()}]
+    }`
+  }
+
 }
 
-export default Stack;
+export default StackList;
