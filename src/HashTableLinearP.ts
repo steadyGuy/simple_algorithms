@@ -1,51 +1,86 @@
 import { hashGenerator } from './hashGenerator';
-import HashTable from './HashTable';
+import { hashGeneratorType, IHashTable } from './interfaces';
 // HashTable with Linear Probing technique of collision-resolution.
 
-class HashTableLinearP<T> {
-  #table: Array<T>;
+class HashTableLinearP<K, V> implements IHashTable<K, V> {
+  private table: Array<Map<K, V>>;
+  private tableSize = 0;
+  private pairCount = 0;
+  private hashGenerator = hashGenerator;
+  private loadFactor = 0.5;
 
   constructor(size: number = 137) {
-    this.#table = new Array(size);
-    // this._count = 0;
+    this.table = new Array(size);
+    this.tableSize = size;
   }
 
-  put(data) {
-    let pos = hashGenerator(data.key, this.#table.length);
+  put(key: K, value: V) {
+    let hash = this.hashGenerator(key, this.tableSize);
+    console.log(hash);
+    // console.log('pair', this.table[hash])
+    while (hash < this.tableSize) {
+
+      // если нашли ключ в таблице, возвращаем
+      if (!this.table[hash]) {
+        this.table[hash] = new Map([[key, value]]);
+        this.pairCount++;
+        return;
+      }
+
+      // если следующая ячейка в таблице пустая, значит
+      // больше искать смысла
+      if (this.table[hash].has(key)) {
+        throw new Error('Ячейка с таким ключом уже существует');
+      }
+
+      hash++;
+    }
+
+    if (this.loadFactor <= this.tableSize / this.pairCount) {
+      this.table[++hash] = new Map([[key, value]]);
+      this.tableSize += this.tableSize * this.loadFactor;
+      console.log('LOAD FACTOR');
+      return;
+    }
+
+    throw new Error('Таблица заполнена!')
+
     // if (this._count >= 137) throw new Error('Больше за длину!');
-    if (this.table[pos] === undefined) {
-      this.#table[pos] = key;
-      this.values[pos] = data;
-      this._count++;
-    } else {
-      while (this.table[pos] !== undefined) {
-        pos++;
-      }
-      this.#table[pos] = key;
-      this.values[pos] = data;
-      this._count++;
-    }
   }
 
-  get(key) {
-    const hash = this.hash(key);
-    if (hash > -1) {
-      for (let i = hash; this.table[i] !== undefined; i++) {
-        if (this.table[i] === key) {
-          return this.values[i];
-        }
+  get(key: K) {
+    let hash = this.hashGenerator(key, this.tableSize);
+    while (hash < this.tableSize) {
+
+      // если нашли ключ в таблице, возвращаем
+      if (this.table[hash].has(key)) {
+        return this.table[hash].get(key);
       }
+
+      // если следующая ячейка в таблице пустая, значит
+      // больше искать смысла
+      if (this.table[hash] === undefined) {
+        throw new Error('Ключ не найден в хеш-таблице');
+      }
+
+      hash++;
     }
-    return undefined;
+
+    throw new Error('Ключ не найден в хеш-таблице');
   }
 
-  showDistro() {
-    console.log(this.values);
-    for (const key in this.table) {
-      if (this.table[key] !== undefined) {
-        console.log(key, ' : ', this.values[key]);
+  setHashGenerator(generator: hashGeneratorType) {
+    this.hashGenerator = generator;
+  }
+
+  showInConsole(title: string) {
+    console.log(title.toUpperCase() + ':');
+    this.table.forEach(item => {
+      if (item !== undefined) {
+        let pair = item.entries().next().value;
+        console.log(pair[0], ':', pair[1]);
       }
-    }
+    })
   }
 }
 

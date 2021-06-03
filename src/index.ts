@@ -1,10 +1,9 @@
-import HashTable from './HashTable';
 import HashTableLinearP from './HashTableLinearP';
+import faker from 'faker';
+const table = new HashTableLinearP<string, string>(20);
 
-const table = new HashTableLinearP();
-
-for (let i = 0; i < 500; i++) {
-  table.put({ key: i, value: Math.random() });
+for (let i = 0; i < 10; i++) {
+  table.put(faker.address.city(), faker.name.findName());
 }
 
-table.showDistro();
+table.showInConsole('PHONE/NAME');

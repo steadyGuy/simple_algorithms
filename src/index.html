@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Лабораторная работа 6</title>
+    <style>
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        gap: 0px 0px;
+        grid-template-areas: '. .';
+      }
+
+      .container,
+      .table {
+        width: 1200px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="grid">
+        <form action="">
+          <p>Добавить в таблицу</p>
+          <input type="text" name="name" value="" placeholder="Введите ключ" />
+          <input type="text" name="value" value="" placeholder="Введите значение" />
+          <button type="submit" id="">Отправить</button>
+        </form>
+        <form action="">
+          <p>Получить из таблицы</p>
+          <input type="text" name="name" value="" placeholder="Введите ключ" />
+          <button type="submit">Получить</button>
+        </form>
+      </div>
+      <table id="table" class="table" border="1" style="margin-top: 45px">
+        <tr>
+          <th>Данные 1</th>
+          <th>Данные 2</th>
+        </tr>
+        <tr>
+          <td>adsadsad</td>
+          <td>adsadsad</td>
+        </tr>
+      </table>
+    </div>
+    <script src="../dist/dom.js"></script>
+  </body>
+</html>
